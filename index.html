@@ -146,12 +146,12 @@
     }
 
     .btn-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 8px;
-      justify-content: center;
-    }
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+  justify-content: center; /* ⭐ 추가 */
+}
 
     button {
       border: none;
@@ -221,7 +221,6 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      justify-content: center; /* 추가: 결과를 가운데 정렬 */
     }
 
     .result-header span.emoji {
@@ -239,25 +238,6 @@
       font-size: 0.9rem;
       font-weight: 700;
       margin: 10px 0 4px;
-      text-align: left; /* 추가: 제목은 좌측 정렬 */
-    }
-    
-    /* ⭐ 추가된 스타일: 키워드 가로 나열 */
-    .keyword-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin: 8px 0 14px;
-      justify-content: center; /* 키워드 중앙 정렬 */
-    }
-
-    .keyword-pill {
-      background: #fff7eb;
-      padding: 6px 12px;
-      border-radius: 999px;
-      font-size: 0.85rem;
-      color: #ff9540;
-      font-weight: 500;
     }
 
     .bullet-list {
@@ -325,7 +305,8 @@
       </p>
     </header>
 
-        <section id="quiz-card" class="card">
+    <!-- 질문 카드 (한 페이지씩) -->
+    <section id="quiz-card" class="card">
       <h2><span class="icon">🧩</span>취향 동물 테스트</h2>
 
       <div class="progress">
@@ -337,7 +318,8 @@
 
       <form id="quiz-form">
         <div id="question-container">
-                  </div>
+          <!-- JS로 질문 내용이 여기 렌더링됨 -->
+        </div>
 
         <div class="btn-row">
           <button type="button" class="btn-secondary" id="prev-btn">
@@ -353,7 +335,8 @@
       </form>
     </section>
 
-        <section id="result-card" class="card" style="display:none; text-align:center;">
+    <!-- 결과 카드 -->
+    <section id="result-card" class="card" style="display:none; text-align:center;">
      <div id="result-content" style="margin-bottom:10px;"></div>
       <div id="result-stats" style="font-weight:500;"></div>
 
@@ -614,10 +597,6 @@
 
     prevBtn.addEventListener("click", () => {
       if (currentIndex > 0) {
-        // 현재 문항의 선택값을 저장 (뒤로 갔다가 돌아올 경우를 대비)
-        const selected = getSelectedForCurrent();
-        answers[currentIndex] = selected; 
-        
         currentIndex--;
         renderQuestion();
       }
@@ -675,13 +654,29 @@
           ${d.description}
         </p>
         <div class="result-section-title">📌 취향 키워드</div>
-        <div class="keyword-row">
-          ${d.keywords.map((k) => `<span class="keyword-pill">${k}</span>`).join("")}
-        </div>
+<div class="keyword-row">
+  ${data.keywords.map((k) => `<span class="keyword-pill">${k}</span>`).join("")}
+</div>
         <div class="result-section-title">💛 잘 맞는 활동</div>
         <p style="font-size:0.9rem; margin:0 0 4px;">${d.activities}</p>
         <div class="result-section-title">✨ 추천 커넥터스 모임</div>
         <span class="pill">➡️ ${d.group}</span>
+        /* 취향 키워드 가로 나열 */
+.keyword-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0 14px;
+}
+
+.keyword-pill {
+  background: #fff7eb;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  color: #ff9540;
+  font-weight: 500;
+}
         <p class="muted">
           나와 비슷한 취향을 가진 사람들을<br />
           커넥터스에서 직접 만나볼 수 있어요.
@@ -725,3 +720,6 @@
   </script>
 </body>
 </html>
+
+
+결과값이 안나오는 오류가 뜨네
