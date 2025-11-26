@@ -1,722 +1,727 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <title>커넥터스 취향 동물 테스트</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-    :root {
-      --bg: #fff9f0;
-      --card: #ffffff;
-      --accent: #ffb347;
-      --accent-deep: #ff9540;
-      --text-main: #333333;
-      --text-sub: #666666;
-      --border-soft: #ffe0b8;
-      --shadow-soft: 0 8px 18px rgba(0, 0, 0, 0.06);
-      --radius-lg: 18px;
-    }
+  <meta charset="UTF-8" />
+  <title>커넥터스 취향 동물 테스트</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg: #fff9f0;
+      --card: #ffffff;
+      --accent: #ffb347;
+      --accent-deep: #ff9540;
+      --text-main: #333333;
+      --text-sub: #666666;
+      --border-soft: #ffe0b8;
+      --shadow-soft: 0 8px 18px rgba(0, 0, 0, 0.06);
+      --radius-lg: 18px;
+    }
 
-    * {
-      box-sizing: border-box;
-    }
+    * {
+      box-sizing: border-box;
+    }
 
-    body {
-      margin: 0;
-      padding: 16px;
-      font-family: -apple-system, BlinkMacSystemFont, "Noto Sans KR",
-        "Apple SD Gothic Neo", system-ui, sans-serif;
-      background: radial-gradient(circle at top, #fff1d6 0, #fff9f0 45%, #fff9f0 100%);
-      color: var(--text-main);
-    }
+    body {
+      margin: 0;
+      padding: 16px;
+      font-family: -apple-system, BlinkMacSystemFont, "Noto Sans KR",
+        "Apple SD Gothic Neo", system-ui, sans-serif;
+      background: radial-gradient(circle at top, #fff1d6 0, #fff9f0 45%, #fff9f0 100%);
+      color: var(--text-main);
+    }
 
-    .app {
-      max-width: 720px;
-      margin: 0 auto;
-    }
+    .app {
+      max-width: 720px;
+      margin: 0 auto;
+    }
 
-    header {
-      text-align: center;
-      margin-bottom: 20px;
-      padding: 12px 8px 4px;
-    }
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+      padding: 12px 8px 4px;
+    }
 
-    header h1 {
-      font-size: 1.6rem;
-      margin: 4px 0 6px;
-    }
+    header h1 {
+      font-size: 1.6rem;
+      margin: 4px 0 6px;
+    }
 
-    header p {
-      margin: 0;
-      color: var(--text-sub);
-      font-size: 0.92rem;
-      line-height: 1.5;
-    }
+    header p {
+      margin: 0;
+      color: var(--text-sub);
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
 
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.8rem;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: rgba(255, 179, 71, 0.16);
-      color: var(--accent-deep);
-      margin-bottom: 3px;
-    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(255, 179, 71, 0.16);
+      color: var(--accent-deep);
+      margin-bottom: 3px;
+    }
 
-    .card {
-      background: var(--card);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-soft);
-      padding: 18px 18px 20px;
-      margin-bottom: 18px;
-      border: 1px solid var(--border-soft);
-    }
+    .card {
+      background: var(--card);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-soft);
+      padding: 18px 18px 20px;
+      margin-bottom: 18px;
+      border: 1px solid var(--border-soft);
+    }
 
-    .card h2 {
-      font-size: 1.15rem;
-      margin: 0 0 10px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
+    .card h2 {
+      font-size: 1.15rem;
+      margin: 0 0 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
 
-    .card h2 span.icon {
-      font-size: 1.2rem;
-    }
+    .card h2 span.icon {
+      font-size: 1.2rem;
+    }
 
-    .progress {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-      font-size: 0.85rem;
-      color: var(--text-sub);
-    }
+    .progress {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 0.85rem;
+      color: var(--text-sub);
+    }
 
-    .progress-bar {
-      flex: 1;
-      height: 6px;
-      border-radius: 999px;
-      background: #ffe8c7;
-      margin-left: 10px;
-      overflow: hidden;
-    }
+    .progress-bar {
+      flex: 1;
+      height: 6px;
+      border-radius: 999px;
+      background: #ffe8c7;
+      margin-left: 10px;
+      overflow: hidden;
+    }
 
-    .progress-bar-fill {
-      height: 100%;
-      width: 0;
-      border-radius: inherit;
-      background: linear-gradient(90deg, var(--accent), var(--accent-deep));
-      transition: width 0.2s ease-out;
-    }
+    .progress-bar-fill {
+      height: 100%;
+      width: 0;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--accent), var(--accent-deep));
+      transition: width 0.2s ease-out;
+    }
 
-    .question-title {
-      font-weight: 600;
-      margin-bottom: 10px;
-      line-height: 1.6;
-      font-size: 0.98rem;
-    }
+    .question-title {
+      font-weight: 600;
+      margin-bottom: 10px;
+      line-height: 1.6;
+      font-size: 0.98rem;
+    }
 
-    .options {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
 
-    .option-label {
-      display: flex;
-      gap: 8px;
-      align-items: flex-start;
-      font-size: 0.93rem;
-      padding: 7px 9px;
-      border-radius: 12px;
-      transition: background 0.18s ease, transform 0.08s ease;
-      cursor: pointer;
-    }
+    .option-label {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      font-size: 0.93rem;
+      padding: 7px 9px;
+      border-radius: 12px;
+      transition: background 0.18s ease, transform 0.08s ease;
+      cursor: pointer;
+    }
 
-    .option-label:hover {
-      background: #fff7eb;
-      transform: translateY(-1px);
-    }
+    .option-label:hover {
+      background: #fff7eb;
+      transform: translateY(-1px);
+    }
 
-    .option-label input {
-      margin-top: 3px;
-    }
+    .option-label input {
+      margin-top: 3px;
+    }
 
-    .btn-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 8px;
-  justify-content: center; /* ⭐ 추가 */
-}
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+      justify-content: center;
+    }
 
-    button {
-      border: none;
-      border-radius: 999px;
-      padding: 10px 18px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: transform 0.1s ease, box-shadow 0.1s ease,
-        background 0.15s ease;
-      font-family: inherit;
-    }
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 10px 18px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: transform 0.1s ease, box-shadow 0.1s ease,
+        background 0.15s ease;
+      font-family: inherit;
+    }
 
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent), var(--accent-deep));
-      color: white;
-      box-shadow: 0 8px 16px rgba(255, 149, 64, 0.35);
-      flex: 1;
-      min-width: 130px;
-    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+      color: white;
+      box-shadow: 0 8px 16px rgba(255, 149, 64, 0.35);
+      flex: 1;
+      min-width: 130px;
+    }
 
-    .btn-primary:active {
-      transform: translateY(1px);
-      box-shadow: 0 4px 8px rgba(255, 149, 64, 0.35);
-    }
+    .btn-primary:active {
+      transform: translateY(1px);
+      box-shadow: 0 4px 8px rgba(255, 149, 64, 0.35);
+    }
 
-    .btn-secondary {
-      background: #fff3e2;
-      color: var(--accent-deep);
-      border-radius: 999px;
-      padding: 8px 14px;
-      font-weight: 500;
-      font-size: 0.86rem;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
-    }
+    .btn-secondary {
+      background: #fff3e2;
+      color: var(--accent-deep);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-weight: 500;
+      font-size: 0.86rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+    }
 
-    .btn-secondary:active {
-      transform: translateY(1px);
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
-    }
+    .btn-secondary:active {
+      transform: translateY(1px);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
+    }
 
-    .btn-link {
-      background: transparent;
-      color: var(--text-sub);
-      box-shadow: none;
-      padding: 0;
-      font-weight: 500;
-    }
+    .btn-link {
+      background: transparent;
+      color: var(--text-sub);
+      box-shadow: none;
+      padding: 0;
+      font-weight: 500;
+    }
 
-    .btn-link:hover {
-      text-decoration: underline;
-    }
+    .btn-link:hover {
+      text-decoration: underline;
+    }
 
-    .muted {
-      font-size: 0.8rem;
-      color: var(--text-sub);
-      margin-top: 8px;
-    }
+    .muted {
+      font-size: 0.8rem;
+      color: var(--text-sub);
+      margin-top: 8px;
+    }
 
-    .result-header {
-      font-size: 1.3rem;
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+    .result-header {
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: center; /* 추가: 결과를 가운데 정렬 */
+    }
 
-    .result-header span.emoji {
-      font-size: 1.6rem;
-    }
+    .result-header span.emoji {
+      font-size: 1.6rem;
+    }
 
-    .result-subtitle {
-      font-size: 0.98rem;
-      color: var(--text-sub);
-      margin-bottom: 10px;
-      line-height: 1.7;
-    }
+    .result-subtitle {
+      font-size: 0.98rem;
+      color: var(--text-sub);
+      margin-bottom: 10px;
+      line-height: 1.7;
+    }
 
-    .result-section-title {
-      font-size: 0.9rem;
-      font-weight: 700;
-      margin: 10px 0 4px;
-    }
+    .result-section-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin: 10px 0 4px;
+      text-align: left; /* 추가: 제목은 좌측 정렬 */
+    }
+    
+    /* ⭐ 추가된 스타일: 키워드 가로 나열 */
+    .keyword-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 8px 0 14px;
+      justify-content: center; /* 키워드 중앙 정렬 */
+    }
 
-    .bullet-list {
-      margin: 0;
-      padding-left: 1.1rem;
-      font-size: 0.9rem;
-      color: var(--text-main);
-    }
+    .keyword-pill {
+      background: #fff7eb;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      color: #ff9540;
+      font-weight: 500;
+    }
 
-    .bullet-list li {
-      margin-bottom: 3px;
-    }
+    .bullet-list {
+      margin: 0;
+      padding-left: 1.1rem;
+      font-size: 0.9rem;
+      color: var(--text-main);
+    }
 
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 5px 11px;
-      border-radius: 999px;
-      background: #fff7eb;
-      font-size: 0.83rem;
-      color: var(--accent-deep);
-      margin-top: 6px;
-    }
+    .bullet-list li {
+      margin-bottom: 3px;
+    }
 
-    a.link-button {
-      text-decoration: none;
-    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 11px;
+      border-radius: 999px;
+      background: #fff7eb;
+      font-size: 0.83rem;
+      color: var(--accent-deep);
+      margin-top: 6px;
+    }
 
-    #result-stats {
-      margin: 14px 0;
-      font-size: 0.9rem;
-      color: #444;
-      text-align: center;
-      line-height: 1.4;
-    }
+    a.link-button {
+      text-decoration: none;
+    }
 
-    @media (max-width: 480px) {
-      .card {
-        padding: 16px 14px 18px;
-      }
+    #result-stats {
+      margin: 14px 0;
+      font-size: 0.9rem;
+      color: #444;
+      text-align: center;
+      line-height: 1.4;
+    }
 
-      .btn-row {
-        flex-direction: column;
-      }
+    @media (max-width: 480px) {
+      .card {
+        padding: 16px 14px 18px;
+      }
 
-      header h1 {
-        font-size: 1.4rem;
-      }
-    }
-  </style>
+      .btn-row {
+        flex-direction: column;
+      }
+
+      header h1 {
+        font-size: 1.4rem;
+      }
+    }
+  </style>
 </head>
 <body>
-  <div class="app">
-    <header>
-      <div class="badge">
-        <span>💫</span>
-        <span>성남시 커넥터스 · 취향 테스트</span>
-      </div>
-      <h1>커넥터스 취향 동물 테스트</h1>
-      <p>
-        연애 말고, <strong>그냥 “나”의 취향</strong>을 알아보는 테스트예요.<br />
-        10개의 질문에 차근차근 답하면,<br />
-        당신과 잘 맞는 커넥터스 모임을 추천해줄게요.
-      </p>
-    </header>
+  <div class="app">
+    <header>
+      <div class="badge">
+        <span>💫</span>
+        <span>성남시 커넥터스 · 취향 테스트</span>
+      </div>
+      <h1>커넥터스 취향 동물 테스트</h1>
+      <p>
+        연애 말고, <strong>그냥 “나”의 취향</strong>을 알아보는 테스트예요.<br />
+        10개의 질문에 차근차근 답하면,<br />
+        당신과 잘 맞는 커넥터스 모임을 추천해줄게요.
+      </p>
+    </header>
 
-    <!-- 질문 카드 (한 페이지씩) -->
-    <section id="quiz-card" class="card">
-      <h2><span class="icon">🧩</span>취향 동물 테스트</h2>
+        <section id="quiz-card" class="card">
+      <h2><span class="icon">🧩</span>취향 동물 테스트</h2>
 
-      <div class="progress">
-        <span id="progress-text">Q1 / 10</span>
-        <div class="progress-bar">
-          <div id="progress-fill" class="progress-bar-fill"></div>
-        </div>
-      </div>
+      <div class="progress">
+        <span id="progress-text">Q1 / 10</span>
+        <div class="progress-bar">
+          <div id="progress-fill" class="progress-bar-fill"></div>
+        </div>
+      </div>
 
-      <form id="quiz-form">
-        <div id="question-container">
-          <!-- JS로 질문 내용이 여기 렌더링됨 -->
-        </div>
+      <form id="quiz-form">
+        <div id="question-container">
+                  </div>
 
-        <div class="btn-row">
-          <button type="button" class="btn-secondary" id="prev-btn">
-            이전
-          </button>
-          <button type="button" class="btn-primary" id="next-btn">
-            다음
-          </button>
-        </div>
-        <p class="muted">
-          * 한 질문씩 차근차근 선택해 주세요.
-        </p>
-      </form>
-    </section>
+        <div class="btn-row">
+          <button type="button" class="btn-secondary" id="prev-btn">
+            이전
+          </button>
+          <button type="button" class="btn-primary" id="next-btn">
+            다음
+          </button>
+        </div>
+        <p class="muted">
+          * 한 질문씩 차근차근 선택해 주세요.
+        </p>
+      </form>
+    </section>
 
-    <!-- 결과 카드 -->
-    <section id="result-card" class="card" style="display:none; text-align:center;">
-     <div id="result-content" style="margin-bottom:10px;"></div>
-      <div id="result-stats" style="font-weight:500;"></div>
+        <section id="result-card" class="card" style="display:none; text-align:center;">
+     <div id="result-content" style="margin-bottom:10px;"></div>
+      <div id="result-stats" style="font-weight:500;"></div>
 
-      <div class="btn-row" style="margin-top:14px;">
-        <a
-          class="link-button"
-          href="https://www.seongnam.go.kr/apply/view.do?appIdx=3542"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <button type="button" class="btn-primary">
-            ✨ 커넥터스 신청하러 가기
-          </button>
-        </a>
+      <div class="btn-row" style="margin-top:14px;">
+        <a
+          class="link-button"
+          href="https://www.seongnam.go.kr/apply/view.do?appIdx=3542"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <button type="button" class="btn-primary">
+            ✨ 커넥터스 신청하러 가기
+          </button>
+        </a>
 
-        <button type="button" id="copy-btn" class="btn-secondary">
-          🔗 결과 링크 복사하기
-        </button>
+        <button type="button" id="copy-btn" class="btn-secondary">
+          🔗 결과 링크 복사하기
+        </button>
 
-        <button type="button" class="btn-secondary" id="again-btn">
-          다시 테스트하기 🔁
-        </button>
-      </div>
+        <button type="button" class="btn-secondary" id="again-btn">
+          다시 테스트하기 🔁
+        </button>
+      </div>
 
-      <p class="muted">
-        * 이 테스트는 취향+재미용이며,<br />
-        실제 교류 커넥터스 현장에서 이루어집니다.
-      </p>
-    </section>
-  </div>
+      <p class="muted">
+        * 이 테스트는 취향+재미용이며,<br />
+        실제 교류 커넥터스 현장에서 이루어집니다.
+      </p>
+    </section>
+  </div>
 
-  <script>
-    // 질문 데이터 (동물 타입은 value로만, 화면엔 안 보임)
-    const questions = [
-      {
-        id: 1,
-        text: "Q1. 주말 오전, 당신은 보통?",
-        options: [
-          { text: "갑자기 드라이브나 나들이를 떠난다.", value: "tiger" },
-          { text: "커피 마시며 한 주 계획을 정리한다.", value: "owl" },
-          { text: "게임이나 운동으로 에너지를 채운다.", value: "monkey" },
-          { text: "음악 틀고 천천히 리듬을 맞춘다.", value: "fox" },
-          { text: "브런치·빵·커피로 소소한 행복을 느낀다.", value: "cat" }
-        ]
-      },
-      {
-        id: 2,
-        text: "Q2. 친구가 “같이 뭐 할래?”라고 물으면?",
-        options: [
-          { text: "“가자.” 이미 나갈 준비를 한다.", value: "tiger" },
-          { text: "언제, 어디, 몇 시인지부터 정확히 묻는다.", value: "owl" },
-          { text: "“재밌으면 뭐든 상관없지.”", value: "monkey" },
-          { text: "“분위기 괜찮은 곳이면 좋겠다.”", value: "fox" },
-          { text: "“일단 뭐 먹을지부터 정하자.”", value: "cat" }
-        ]
-      },
-      {
-        id: 3,
-        text: "Q3. 요즘 나에게 가장 만족감을 주는 건?",
-        options: [
-          { text: "새로운 장소와 사람을 만나보는 경험.", value: "tiger" },
-          { text: "재테크·경제 공부, 돈 흐름 이해하기.", value: "owl" },
-          { text: "게임 승리, 운동 성취감 같은 승부의 순간.", value: "monkey" },
-          { text: "좋은 음악과 영화, 취향 맞는 콘텐츠.", value: "fox" },
-          { text: "맛있는 음식과 디저트, 조용한 여유.", value: "cat" }
-        ]
-      },
-      {
-        id: 4,
-        text: "Q4. 주로 보는 콘텐츠는?",
-        options: [
-          { text: "여행 브이로그, 캠핑·차박 영상.", value: "tiger" },
-          { text: "경제·부동산·시사·트렌드 리포트.", value: "owl" },
-          { text: "e스포츠, 게임 리뷰, 경기 하이라이트.", value: "monkey" },
-          { text: "음악 방송, 공연 영상, 영화 리뷰.", value: "fox" },
-          { text: "푸드 리뷰, 맛집 지도, 먹방.", value: "cat" }
-        ]
-      },
-      {
-        id: 5,
-        text: "Q5. 모임 스타일을 고르자면?",
-        options: [
-          { text: "같이 움직이고 활동하면서 친해지는 모임.", value: "tiger" },
-          { text: "목적·정보·효율이 있는 깔끔한 모임.", value: "owl" },
-          { text: "게임이나 스포츠를 같이하는 모임.", value: "monkey" },
-          { text: "편안한 음악·공연 분위기가 있는 모임.", value: "fox" },
-          { text: "맛있는 음식과 수다가 중심인 모임.", value: "cat" }
-        ]
-      },
-      {
-        id: 6,
-        text: "Q6. 완벽한 여행 스타일은?",
-        options: [
-          { text: "즉흥 일정, 가서 보고 정하는 여행.", value: "tiger" },
-          { text: "루트·예산·정보를 미리 분석해두는 여행.", value: "owl" },
-          { text: "테마파크·경기 관람이 꼭 들어간 여행.", value: "monkey" },
-          { text: "미술관·영화관·음악이 있는 도시 여행.", value: "fox" },
-          { text: "맛집, 카페 위주로 느긋하게 쉬는 여행.", value: "cat" }
-        ]
-      },
-      {
-        id: 7,
-        text: "Q7. 나에게 ‘힐링’은?",
-        options: [
-          { text: "바람 맞으며 걷거나 어딘가로 이동하는 시간.", value: "tiger" },
-          { text: "기록하고 정리하며 머릿속도 정리하는 시간.", value: "owl" },
-          { text: "땀 흘리거나 게임에서 이기는 순간.", value: "monkey" },
-          { text: "좋은 음악과 영화에 푹 잠기는 시간.", value: "fox" },
-          { text: "조용히 먹고 쉬는, 아무것도 안 해도 되는 시간.", value: "cat" }
-        ]
-      },
-      {
-        id: 8,
-        text: "Q8. 새로운 사람을 만났을 때 가장 먼저 보는 건?",
-        options: [
-          { text: "에너지, 말투, 노는 방식.", value: "tiger" },
-          { text: "사고방식, 대화 흐름, 가치관.", value: "owl" },
-          { text: "유머 코드, 리액션, 반응 속도.", value: "monkey" },
-          { text: "취향, 분위기, 감각이 맞는지.", value: "fox" },
-          { text: "식습관, 먹는 템포, 편안한지.", value: "cat" }
-        ]
-      },
-      {
-        id: 9,
-        text: "Q9. 내 소비 스타일을 가장 잘 설명하는 것은?",
-        options: [
-          { text: "경험에 대한 소비는 후회하지 않는 편이다.", value: "tiger" },
-          { text: "비교·검증 후에 최종 선택하는 편이다.", value: "owl" },
-          { text: "충동과 재미가 섞인 소비가 많다.", value: "monkey" },
-          { text: "감성·브랜드·감각이 중요하다.", value: "fox" },
-          { text: "맛있고 행복하면 그걸로 충분하다.", value: "cat" }
-        ]
-      },
-      {
-        id: 10,
-        text: "Q10. 나를 한 문장으로 표현한다면?",
-        options: [
-          { text: "“일단 해보는 사람.”", value: "tiger" },
-          { text: "“생각하고 결정하는 사람.”", value: "owl" },
-          { text: "“하고 싶으면 하는 사람.”", value: "monkey" },
-          { text: "“느낌이 맞아야 움직이는 사람.”", value: "fox" },
-          { text: "“조용히 행복을 잘 느끼는 사람.”", value: "cat" }
-        ]
-      }
-    ];
+  <script>
+    // 질문 데이터 (동물 타입은 value로만, 화면엔 안 보임)
+    const questions = [
+      {
+        id: 1,
+        text: "Q1. 주말 오전, 당신은 보통?",
+        options: [
+          { text: "갑자기 드라이브나 나들이를 떠난다.", value: "tiger" },
+          { text: "커피 마시며 한 주 계획을 정리한다.", value: "owl" },
+          { text: "게임이나 운동으로 에너지를 채운다.", value: "monkey" },
+          { text: "음악 틀고 천천히 리듬을 맞춘다.", value: "fox" },
+          { text: "브런치·빵·커피로 소소한 행복을 느낀다.", value: "cat" }
+        ]
+      },
+      {
+        id: 2,
+        text: "Q2. 친구가 “같이 뭐 할래?”라고 물으면?",
+        options: [
+          { text: "“가자.” 이미 나갈 준비를 한다.", value: "tiger" },
+          { text: "언제, 어디, 몇 시인지부터 정확히 묻는다.", value: "owl" },
+          { text: "“재밌으면 뭐든 상관없지.”", value: "monkey" },
+          { text: "“분위기 괜찮은 곳이면 좋겠다.”", value: "fox" },
+          { text: "“일단 뭐 먹을지부터 정하자.”", value: "cat" }
+        ]
+      },
+      {
+        id: 3,
+        text: "Q3. 요즘 나에게 가장 만족감을 주는 건?",
+        options: [
+          { text: "새로운 장소와 사람을 만나보는 경험.", value: "tiger" },
+          { text: "재테크·경제 공부, 돈 흐름 이해하기.", value: "owl" },
+          { text: "게임 승리, 운동 성취감 같은 승부의 순간.", value: "monkey" },
+          { text: "좋은 음악과 영화, 취향 맞는 콘텐츠.", value: "fox" },
+          { text: "맛있는 음식과 디저트, 조용한 여유.", value: "cat" }
+        ]
+      },
+      {
+        id: 4,
+        text: "Q4. 주로 보는 콘텐츠는?",
+        options: [
+          { text: "여행 브이로그, 캠핑·차박 영상.", value: "tiger" },
+          { text: "경제·부동산·시사·트렌드 리포트.", value: "owl" },
+          { text: "e스포츠, 게임 리뷰, 경기 하이라이트.", value: "monkey" },
+          { text: "음악 방송, 공연 영상, 영화 리뷰.", value: "fox" },
+          { text: "푸드 리뷰, 맛집 지도, 먹방.", value: "cat" }
+        ]
+      },
+      {
+        id: 5,
+        text: "Q5. 모임 스타일을 고르자면?",
+        options: [
+          { text: "같이 움직이고 활동하면서 친해지는 모임.", value: "tiger" },
+          { text: "목적·정보·효율이 있는 깔끔한 모임.", value: "owl" },
+          { text: "게임이나 스포츠를 같이하는 모임.", value: "monkey" },
+          { text: "편안한 음악·공연 분위기가 있는 모임.", value: "fox" },
+          { text: "맛있는 음식과 수다가 중심인 모임.", value: "cat" }
+        ]
+      },
+      {
+        id: 6,
+        text: "Q6. 완벽한 여행 스타일은?",
+        options: [
+          { text: "즉흥 일정, 가서 보고 정하는 여행.", value: "tiger" },
+          { text: "루트·예산·정보를 미리 분석해두는 여행.", value: "owl" },
+          { text: "테마파크·경기 관람이 꼭 들어간 여행.", value: "monkey" },
+          { text: "미술관·영화관·음악이 있는 도시 여행.", value: "fox" },
+          { text: "맛집, 카페 위주로 느긋하게 쉬는 여행.", value: "cat" }
+        ]
+      },
+      {
+        id: 7,
+        text: "Q7. 나에게 ‘힐링’은?",
+        options: [
+          { text: "바람 맞으며 걷거나 어딘가로 이동하는 시간.", value: "tiger" },
+          { text: "기록하고 정리하며 머릿속도 정리하는 시간.", value: "owl" },
+          { text: "땀 흘리거나 게임에서 이기는 순간.", value: "monkey" },
+          { text: "좋은 음악과 영화에 푹 잠기는 시간.", value: "fox" },
+          { text: "조용히 먹고 쉬는, 아무것도 안 해도 되는 시간.", value: "cat" }
+        ]
+      },
+      {
+        id: 8,
+        text: "Q8. 새로운 사람을 만났을 때 가장 먼저 보는 건?",
+        options: [
+          { text: "에너지, 말투, 노는 방식.", value: "tiger" },
+          { text: "사고방식, 대화 흐름, 가치관.", value: "owl" },
+          { text: "유머 코드, 리액션, 반응 속도.", value: "monkey" },
+          { text: "취향, 분위기, 감각이 맞는지.", value: "fox" },
+          { text: "식습관, 먹는 템포, 편안한지.", value: "cat" }
+        ]
+      },
+      {
+        id: 9,
+        text: "Q9. 내 소비 스타일을 가장 잘 설명하는 것은?",
+        options: [
+          { text: "경험에 대한 소비는 후회하지 않는 편이다.", value: "tiger" },
+          { text: "비교·검증 후에 최종 선택하는 편이다.", value: "owl" },
+          { text: "충동과 재미가 섞인 소비가 많다.", value: "monkey" },
+          { text: "감성·브랜드·감각이 중요하다.", value: "fox" },
+          { text: "맛있고 행복하면 그걸로 충분하다.", value: "cat" }
+        ]
+      },
+      {
+        id: 10,
+        text: "Q10. 나를 한 문장으로 표현한다면?",
+        options: [
+          { text: "“일단 해보는 사람.”", value: "tiger" },
+          { text: "“생각하고 결정하는 사람.”", value: "owl" },
+          { text: "“하고 싶으면 하는 사람.”", value: "monkey" },
+          { text: "“느낌이 맞아야 움직이는 사람.”", value: "fox" },
+          { text: "“조용히 행복을 잘 느끼는 사람.”", value: "cat" }
+        ]
+      }
+    ];
 
-    // 결과 데이터 (여기서만 동물 이모티콘/이름 노출)
-    const animalData = {
-      tiger: {
-        emoji: "🦁",
-        title: "움직이는 호랑이",
-        subtitle: "“재밌겠다!” 한마디면 이미 출발한 사람.",
-        description:
-          "당신은 계획보다 ‘해보는 경험’을 더 중요하게 생각하는 타입이에요. 새로운 장소와 사람을 만나보는 일이 지루한 일상을 깨는 비타민이 됩니다.",
-        keywords: ["여행", "캠핑", "즉흥", "새 장소"],
-        activities: "여행 · 캠핑 · 드라이브 · 야외 모임",
-        group: "여행 · 캠핑 그룹"
-      },
-      owl: {
-        emoji: "🦉",
-        title: "계획하는 부엉이",
-        subtitle: "“일단 정리부터 해볼까?”",
-        description:
-          "당신은 감정보다 정보와 근거에 안정감을 느끼는 타입이에요. 모임도 소비도 즉흥보다는 ‘의미와 설득력’을 중요하게 봅니다. 꾸준함과 분석이 당신의 무기예요.",
-        keywords: ["재테크", "경제", "루틴", "지식"],
-        activities: "공부 모임 · 금융/투자 이야기 · 루틴 챌린지",
-        group: "재테크 · 경제 그룹"
-      },
-      monkey: {
-        emoji: "🐒",
-        title: "불타는 원숭이",
-        subtitle: "“재밌으면 그냥 하는 거지!”",
-        description:
-          "당신은 몰입력과 승부욕이 있는 타입이에요. 게임이든 운동이든 에너지 넘치는 활동에서 기분이 살아납니다. ‘재밌냐?’가 많은 선택의 기준이 돼요.",
-        keywords: ["스포츠", "게임", "경쟁", "몰입"],
-        activities: "경기 관람 · 게임파티 · 팀플 액티비티",
-        group: "스포츠 · 게임 그룹"
-      },
-      fox: {
-        emoji: "🦊",
-        title: "감상하는 여우",
-        subtitle: "“분위기 좋은데…?”",
-        description:
-          "당신은 취향과 감각이 일상을 결정하는 타입이에요. 음악, 영화, 공연, 전시는 단순한 취미가 아니라 ‘취향의 언어’입니다. 분위기와 무드를 잘 느끼는 사람이에요.",
-        keywords: ["음악", "영화", "공연", "무드"],
-        activities: "콘서트 · 영화 모임 · 전시 감상 · 산책",
-        group: "뮤직 · 영화 · 공연 그룹"
-      },
-      cat: {
-        emoji: "🐱",
-        title: "천천히 즐기는 고양이",
-        subtitle: "“천천히, 그런데 제대로.”",
-        description:
-          "당신은 빠른 자극보다 편안함과 여유를 좋아하는 타입이에요. 맛있는 음식과 좋은 자리, 조용한 대화가 있는 시간에서 행복을 잘 느낍니다.",
-        keywords: ["맛집", "요리", "분위기", "소확행"],
-        activities: "브런치 · 맛집 탐방 · 홈카페 · 요리 모임",
-        group: "맛집 · 요리 그룹"
-      }
-    };
+    // 결과 데이터 (여기서만 동물 이모티콘/이름 노출)
+    const animalData = {
+      tiger: {
+        emoji: "🦁",
+        title: "움직이는 호랑이",
+        subtitle: "“재밌겠다!” 한마디면 이미 출발한 사람.",
+        description:
+          "당신은 계획보다 ‘해보는 경험’을 더 중요하게 생각하는 타입이에요. 새로운 장소와 사람을 만나보는 일이 지루한 일상을 깨는 비타민이 됩니다.",
+        keywords: ["여행", "캠핑", "즉흥", "새 장소"],
+        activities: "여행 · 캠핑 · 드라이브 · 야외 모임",
+        group: "여행 · 캠핑 그룹"
+      },
+      owl: {
+        emoji: "🦉",
+        title: "계획하는 부엉이",
+        subtitle: "“일단 정리부터 해볼까?”",
+        description:
+          "당신은 감정보다 정보와 근거에 안정감을 느끼는 타입이에요. 모임도 소비도 즉흥보다는 ‘의미와 설득력’을 중요하게 봅니다. 꾸준함과 분석이 당신의 무기예요.",
+        keywords: ["재테크", "경제", "루틴", "지식"],
+        activities: "공부 모임 · 금융/투자 이야기 · 루틴 챌린지",
+        group: "재테크 · 경제 그룹"
+      },
+      monkey: {
+        emoji: "🐒",
+        title: "불타는 원숭이",
+        subtitle: "“재밌으면 그냥 하는 거지!”",
+        description:
+          "당신은 몰입력과 승부욕이 있는 타입이에요. 게임이든 운동이든 에너지 넘치는 활동에서 기분이 살아납니다. ‘재밌냐?’가 많은 선택의 기준이 돼요.",
+        keywords: ["스포츠", "게임", "경쟁", "몰입"],
+        activities: "경기 관람 · 게임파티 · 팀플 액티비티",
+        group: "스포츠 · 게임 그룹"
+      },
+      fox: {
+        emoji: "🦊",
+        title: "감상하는 여우",
+        subtitle: "“분위기 좋은데…?”",
+        description:
+          "당신은 취향과 감각이 일상을 결정하는 타입이에요. 음악, 영화, 공연, 전시는 단순한 취미가 아니라 ‘취향의 언어’입니다. 분위기와 무드를 잘 느끼는 사람이에요.",
+        keywords: ["음악", "영화", "공연", "무드"],
+        activities: "콘서트 · 영화 모임 · 전시 감상 · 산책",
+        group: "뮤직 · 영화 · 공연 그룹"
+      },
+      cat: {
+        emoji: "🐱",
+        title: "천천히 즐기는 고양이",
+        subtitle: "“천천히, 그런데 제대로.”",
+        description:
+          "당신은 빠른 자극보다 편안함과 여유를 좋아하는 타입이에요. 맛있는 음식과 좋은 자리, 조용한 대화가 있는 시간에서 행복을 잘 느낍니다.",
+        keywords: ["맛집", "요리", "분위기", "소확행"],
+        activities: "브런치 · 맛집 탐방 · 홈카페 · 요리 모임",
+        group: "맛집 · 요리 그룹"
+      }
+    };
 
-    const quizCard = document.getElementById("quiz-card");
-    const quizForm = document.getElementById("quiz-form");
-    const questionContainer = document.getElementById("question-container");
-    const progressText = document.getElementById("progress-text");
-    const progressFill = document.getElementById("progress-fill");
-    const prevBtn = document.getElementById("prev-btn");
-    const nextBtn = document.getElementById("next-btn");
+    const quizCard = document.getElementById("quiz-card");
+    const quizForm = document.getElementById("quiz-form");
+    const questionContainer = document.getElementById("question-container");
+    const progressText = document.getElementById("progress-text");
+    const progressFill = document.getElementById("progress-fill");
+    const prevBtn = document.getElementById("prev-btn");
+    const nextBtn = document.getElementById("next-btn");
 
-    const resultCard = document.getElementById("result-card");
-    const resultContent = document.getElementById("result-content");
-    const resultStats = document.getElementById("result-stats");
-    const copyBtn = document.getElementById("copy-btn");
-    const againBtn = document.getElementById("again-btn");
+    const resultCard = document.getElementById("result-card");
+    const resultContent = document.getElementById("result-content");
+    const resultStats = document.getElementById("result-stats");
+    const copyBtn = document.getElementById("copy-btn");
+    const againBtn = document.getElementById("again-btn");
 
-    let currentIndex = 0; // 0~9
-    const answers = new Array(questions.length).fill(null);
+    let currentIndex = 0; // 0~9
+    const answers = new Array(questions.length).fill(null);
 
-    function renderQuestion() {
-      const q = questions[currentIndex];
-      progressText.textContent = `Q${currentIndex + 1} / ${questions.length}`;
-      const pct = ((currentIndex) / questions.length) * 100;
-      progressFill.style.width = `${pct}%`;
+    function renderQuestion() {
+      const q = questions[currentIndex];
+      progressText.textContent = `Q${currentIndex + 1} / ${questions.length}`;
+      const pct = ((currentIndex) / questions.length) * 100;
+      progressFill.style.width = `${pct}%`;
 
-      let html = `
-        <div class="question-title">${q.text}</div>
-        <div class="options">
-      `;
+      let html = `
+        <div class="question-title">${q.text}</div>
+        <div class="options">
+      `;
 
-      q.options.forEach((opt, idx) => {
-        const name = "q" + q.id;
-        const checked = answers[currentIndex] === opt.value ? "checked" : "";
-        html += `
-          <label class="option-label">
-            <input type="radio" name="${name}" value="${opt.value}" ${checked} />
-            <span>${opt.text}</span>
-          </label>
-        `;
-      });
+      q.options.forEach((opt, idx) => {
+        const name = "q" + q.id;
+        const checked = answers[currentIndex] === opt.value ? "checked" : "";
+        html += `
+          <label class="option-label">
+            <input type="radio" name="${name}" value="${opt.value}" ${checked} />
+            <span>${opt.text}</span>
+          </label>
+        `;
+      });
 
-      html += `</div>`;
-      questionContainer.innerHTML = html;
+      html += `</div>`;
+      questionContainer.innerHTML = html;
 
-      // 버튼 상태
-      prevBtn.disabled = currentIndex === 0;
-      if (currentIndex === questions.length - 1) {
-        nextBtn.textContent = "결과 보기";
-      } else {
-        nextBtn.textContent = "다음";
-      }
-    }
+      // 버튼 상태
+      prevBtn.disabled = currentIndex === 0;
+      if (currentIndex === questions.length - 1) {
+        nextBtn.textContent = "결과 보기";
+      } else {
+        nextBtn.textContent = "다음";
+      }
+    }
 
-    function getSelectedForCurrent() {
-      const q = questions[currentIndex];
-      const name = "q" + q.id;
-      const selected = quizForm.querySelector(`input[name="${name}"]:checked`);
-      return selected ? selected.value : null;
-    }
+    function getSelectedForCurrent() {
+      const q = questions[currentIndex];
+      const name = "q" + q.id;
+      const selected = quizForm.querySelector(`input[name="${name}"]:checked`);
+      return selected ? selected.value : null;
+    }
 
-    prevBtn.addEventListener("click", () => {
-      if (currentIndex > 0) {
-        currentIndex--;
-        renderQuestion();
-      }
-    });
+    prevBtn.addEventListener("click", () => {
+      if (currentIndex > 0) {
+        // 현재 문항의 선택값을 저장 (뒤로 갔다가 돌아올 경우를 대비)
+        const selected = getSelectedForCurrent();
+        answers[currentIndex] = selected; 
+        
+        currentIndex--;
+        renderQuestion();
+      }
+    });
 
-    nextBtn.addEventListener("click", () => {
-      const selected = getSelectedForCurrent();
-      if (!selected) {
-        alert("한 가지를 선택해 주세요.");
-        return;
-      }
-      answers[currentIndex] = selected;
+    nextBtn.addEventListener("click", () => {
+      const selected = getSelectedForCurrent();
+      if (!selected) {
+        alert("한 가지를 선택해 주세요.");
+        return;
+      }
+      answers[currentIndex] = selected;
 
-      if (currentIndex < questions.length - 1) {
-        currentIndex++;
-        renderQuestion();
-      } else {
-        // 마지막 문항 → 결과 계산
-        showResult();
-      }
-    });
+      if (currentIndex < questions.length - 1) {
+        currentIndex++;
+        renderQuestion();
+      } else {
+        // 마지막 문항 → 결과 계산
+        showResult();
+      }
+    });
 
-    function showResult() {
-      // 점수 계산
-      const scores = { tiger:0, owl:0, monkey:0, fox:0, cat:0 };
-      answers.forEach(v => {
-        if (v && scores[v] !== undefined) scores[v]++;
-      });
+    function showResult() {
+      // 점수 계산
+      const scores = { tiger:0, owl:0, monkey:0, fox:0, cat:0 };
+      answers.forEach(v => {
+        if (v && scores[v] !== undefined) scores[v]++;
+      });
 
-      // 최고 타입
-      let bestType = "tiger";
-      let bestScore = -1;
-      Object.entries(scores).forEach(([type, score]) => {
-        if (score > bestScore) {
-          bestScore = score;
-          bestType = type;
-        }
-      });
+      // 최고 타입
+      let bestType = "tiger";
+      let bestScore = -1;
+      Object.entries(scores).forEach(([type, score]) => {
+        if (score > bestScore) {
+          bestScore = score;
+          bestType = type;
+        }
+      });
 
-      const d = animalData[bestType];
+      const d = animalData[bestType];
 
-      // 통계값 (랜덤, 나중에 진짜 DB 붙일 수 있게 구조만 유지)
-      const sampleCount = Math.floor(Math.random() * (367 - 83) + 83); // 83~366
-      const percentage = (sampleCount / 500 * 100).toFixed(1);
+      // 통계값 (랜덤, 나중에 진짜 DB 붙일 수 있게 구조만 유지)
+      const sampleCount = Math.floor(Math.random() * (367 - 83) + 83); // 83~366
+      const percentage = (sampleCount / 500 * 100).toFixed(1);
 
-      const userURL = window.location.href.split("?")[0] + `?type=${bestType}`;
+      const userURL = window.location.href.split("?")[0] + `?type=${bestType}`;
 
-      resultContent.innerHTML = `
-        <div class="result-header">
-          <span class="emoji">${d.emoji}</span>
-          <span>${d.title}</span>
-        </div>
-        <div class="result-subtitle">${d.subtitle}</div>
-        <p style="font-size:0.95rem; line-height:1.7; margin:0 0 6px;">
-          ${d.description}
-        </p>
-        <div class="result-section-title">📌 취향 키워드</div>
-<div class="keyword-row">
-  ${data.keywords.map((k) => `<span class="keyword-pill">${k}</span>`).join("")}
-</div>
-        <div class="result-section-title">💛 잘 맞는 활동</div>
-        <p style="font-size:0.9rem; margin:0 0 4px;">${d.activities}</p>
-        <div class="result-section-title">✨ 추천 커넥터스 모임</div>
-        <span class="pill">➡️ ${d.group}</span>
-        /* 취향 키워드 가로 나열 */
-.keyword-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 8px 0 14px;
-}
+      resultContent.innerHTML = `
+        <div class="result-header">
+          <span class="emoji">${d.emoji}</span>
+          <span>${d.title}</span>
+        </div>
+        <div class="result-subtitle">${d.subtitle}</div>
+        <p style="font-size:0.95rem; line-height:1.7; margin:0 0 6px;">
+          ${d.description}
+        </p>
+        <div class="result-section-title">📌 취향 키워드</div>
+        <div class="keyword-row">
+          ${d.keywords.map((k) => `<span class="keyword-pill">${k}</span>`).join("")}
+        </div>
+        <div class="result-section-title">💛 잘 맞는 활동</div>
+        <p style="font-size:0.9rem; margin:0 0 4px;">${d.activities}</p>
+        <div class="result-section-title">✨ 추천 커넥터스 모임</div>
+        <span class="pill">➡️ ${d.group}</span>
+        <p class="muted">
+          나와 비슷한 취향을 가진 사람들을<br />
+          커넥터스에서 직접 만나볼 수 있어요.
+        </p>
+      `;
 
-.keyword-pill {
-  background: #fff7eb;
-  padding: 6px 12px;
-  border-radius: 999px;
-  font-size: 0.85rem;
-  color: #ff9540;
-  font-weight: 500;
-}
-        <p class="muted">
-          나와 비슷한 취향을 가진 사람들을<br />
-          커넥터스에서 직접 만나볼 수 있어요.
-        </p>
-      `;
+      resultStats.innerHTML = `
+        <strong>${sampleCount}</strong>명이 당신과 같은 결과를 선택했어요!<br />
+        <span style="color:#777; font-size:0.85rem;">(전체 참여자의 약 ${percentage}%로 추정)</span>
+      `;
 
-      resultStats.innerHTML = `
-        <strong>${sampleCount}</strong>명이 당신과 같은 결과를 선택했어요!<br />
-        <span style="color:#777; font-size:0.85rem;">(전체 참여자의 약 ${percentage}%로 추정)</span>
-      `;
+      // 링크 복사
+      copyBtn.onclick = () => {
+        navigator.clipboard.writeText(userURL).then(() => {
+          const originalText = copyBtn.textContent;
+          copyBtn.textContent = "✔ 복사 완료!";
+          setTimeout(() => {
+            copyBtn.textContent = originalText;
+          }, 1500);
+        });
+      };
 
-      // 링크 복사
-      copyBtn.onclick = () => {
-        navigator.clipboard.writeText(userURL).then(() => {
-          const originalText = copyBtn.textContent;
-          copyBtn.textContent = "✔ 복사 완료!";
-          setTimeout(() => {
-            copyBtn.textContent = originalText;
-          }, 1500);
-        });
-      };
+      quizCard.style.display = "none";
+      resultCard.style.display = "block";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
 
-      quizCard.style.display = "none";
-      resultCard.style.display = "block";
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
+    function resetQuiz() {
+      currentIndex = 0;
+      for (let i = 0; i < answers.length; i++) answers[i] = null;
+      quizCard.style.display = "block";
+      resultCard.style.display = "none";
+      renderQuestion();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
 
-    function resetQuiz() {
-      currentIndex = 0;
-      for (let i = 0; i < answers.length; i++) answers[i] = null;
-      quizCard.style.display = "block";
-      resultCard.style.display = "none";
-      renderQuestion();
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
+    againBtn.addEventListener("click", resetQuiz);
 
-    againBtn.addEventListener("click", resetQuiz);
-
-    // 초기 렌더
-    renderQuestion();
-  </script>
+    // 초기 렌더
+    renderQuestion();
+  </script>
 </body>
 </html>
