@@ -146,11 +146,12 @@
     }
 
     .btn-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 14px;
-    }
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+  justify-content: center; /* ⭐ 추가 */
+}
 
     button {
       border: none;
@@ -306,7 +307,7 @@
 
     <!-- 질문 카드 (한 페이지씩) -->
     <section id="quiz-card" class="card">
-      <h2><span class="icon">🧩</span>취향 생물종 테스트</h2>
+      <h2><span class="icon">🧩</span>취향 동물 테스트</h2>
 
       <div class="progress">
         <span id="progress-text">Q1 / 10</span>
@@ -362,7 +363,7 @@
 
       <p class="muted">
         * 이 테스트는 취향+재미용이며,<br />
-        실제 매칭은 커넥터스 현장에서 이루어집니다.
+        실제 교류 커넥터스 현장에서 이루어집니다.
       </p>
     </section>
   </div>
@@ -653,13 +654,29 @@
           ${d.description}
         </p>
         <div class="result-section-title">📌 취향 키워드</div>
-        <ul class="bullet-list">
-          ${d.keywords.map(k => `<li>${k}</li>`).join("")}
-        </ul>
+<div class="keyword-row">
+  ${data.keywords.map((k) => `<span class="keyword-pill">${k}</span>`).join("")}
+</div>
         <div class="result-section-title">💛 잘 맞는 활동</div>
         <p style="font-size:0.9rem; margin:0 0 4px;">${d.activities}</p>
         <div class="result-section-title">✨ 추천 커넥터스 모임</div>
         <span class="pill">➡️ ${d.group}</span>
+        /* 취향 키워드 가로 나열 */
+.keyword-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0 14px;
+}
+
+.keyword-pill {
+  background: #fff7eb;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  color: #ff9540;
+  font-weight: 500;
+}
         <p class="muted">
           나와 비슷한 취향을 가진 사람들을<br />
           커넥터스에서 직접 만나볼 수 있어요.
