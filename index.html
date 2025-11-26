@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title>커넥터스 취향 생물종 테스트</title>
+  <title>커넥터스 취향 동물 테스트</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     :root {
@@ -82,25 +82,39 @@
       gap: 6px;
     }
 
-    .card h2 span.emoji {
-      font-size: 1.4rem;
+    .card h2 span.icon {
+      font-size: 1.2rem;
     }
 
-    .question {
-      margin-bottom: 18px;
-      padding-bottom: 10px;
-      border-bottom: 1px dashed #f0d2a8;
-    }
-
-    .question:last-of-type {
-      border-bottom: none;
-      padding-bottom: 0;
+    .progress {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       margin-bottom: 10px;
+      font-size: 0.85rem;
+      color: var(--text-sub);
+    }
+
+    .progress-bar {
+      flex: 1;
+      height: 6px;
+      border-radius: 999px;
+      background: #ffe8c7;
+      margin-left: 10px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--accent), var(--accent-deep));
+      transition: width 0.2s ease-out;
     }
 
     .question-title {
       font-weight: 600;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       line-height: 1.6;
       font-size: 0.98rem;
     }
@@ -119,6 +133,7 @@
       padding: 7px 9px;
       border-radius: 12px;
       transition: background 0.18s ease, transform 0.08s ease;
+      cursor: pointer;
     }
 
     .option-label:hover {
@@ -130,16 +145,11 @@
       margin-top: 3px;
     }
 
-    .option-emoji {
-      font-size: 1rem;
-      width: 1.4rem;
-    }
-
     .btn-row {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-top: 8px;
+      margin-top: 14px;
     }
 
     button {
@@ -166,13 +176,7 @@
       min-width: 130px;
     }
 
-    .btn-primary:disabled {
-      background: #ffdcb0;
-      box-shadow: none;
-      cursor: default;
-    }
-
-    .btn-primary:not(:disabled):active {
+    .btn-primary:active {
       transform: translateY(1px);
       box-shadow: 0 4px 8px rgba(255, 149, 64, 0.35);
     }
@@ -187,6 +191,11 @@
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
     }
 
+    .btn-secondary:active {
+      transform: translateY(1px);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
+    }
+
     .btn-link {
       background: transparent;
       color: var(--text-sub);
@@ -197,6 +206,12 @@
 
     .btn-link:hover {
       text-decoration: underline;
+    }
+
+    .muted {
+      font-size: 0.8rem;
+      color: var(--text-sub);
+      margin-top: 8px;
     }
 
     .result-header {
@@ -235,12 +250,6 @@
       margin-bottom: 3px;
     }
 
-    .muted {
-      font-size: 0.8rem;
-      color: var(--text-sub);
-      margin-top: 8px;
-    }
-
     .pill {
       display: inline-flex;
       align-items: center;
@@ -255,6 +264,14 @@
 
     a.link-button {
       text-decoration: none;
+    }
+
+    #result-stats {
+      margin: 14px 0;
+      font-size: 0.9rem;
+      color: #444;
+      text-align: center;
+      line-height: 1.4;
     }
 
     @media (max-width: 480px) {
@@ -279,347 +296,49 @@
         <span>💫</span>
         <span>성남시 커넥터스 · 취향 테스트</span>
       </div>
-      <h1>나는 어떤 취향 동물일까?</h1>
+      <h1>커넥터스 취향 동물 테스트</h1>
       <p>
-        연애 성향 말고, <strong>그냥 “나”의 취향</strong>을 알아보는 테스트예요.<br />
-        10개의 질문에 솔직하게 골라보면,<br />
-        커넥터스에서 잘 맞는 모임도 함께 추천해줄게요.
+        연애 말고, <strong>그냥 “나”의 취향</strong>을 알아보는 테스트예요.<br />
+        10개의 질문에 차근차근 답하면,<br />
+        당신과 잘 맞는 커넥터스 모임을 추천해줄게요.
       </p>
     </header>
 
-    <!-- 질문 카드 -->
-    <main id="quiz-card" class="card">
-      <h2><span class="emoji">🧩</span>취향 생물종 테스트</h2>
+    <!-- 질문 카드 (한 페이지씩) -->
+    <section id="quiz-card" class="card">
+      <h2><span class="icon">🧩</span>취향 생물종 테스트</h2>
+
+      <div class="progress">
+        <span id="progress-text">Q1 / 10</span>
+        <div class="progress-bar">
+          <div id="progress-fill" class="progress-bar-fill"></div>
+        </div>
+      </div>
 
       <form id="quiz-form">
-        <!-- Q1~Q10 -->
-        <div class="question" data-question="1">
-          <div class="question-title">Q1. 주말 오전, 당신은 보통?</div>
-          <div class="options">
-            <label class="option-label">
-              <input type="radio" name="q1" value="tiger" />
-              <span class="option-emoji">🦁</span>
-              <span>갑자기 드라이브나 나들이를 떠난다.</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q1" value="owl" />
-              <span class="option-emoji">🦉</span>
-              <span>커피 마시며 한 주 계획을 정리한다.</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q1" value="monkey" />
-              <span class="option-emoji">🐒</span>
-              <span>게임이나 운동으로 에너지를 채운다.</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q1" value="fox" />
-              <span class="option-emoji">🦊</span>
-              <span>음악 틀고 천천히 리듬을 맞춘다.</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q1" value="cat" />
-              <span class="option-emoji">🐱</span>
-              <span>브런치·빵·커피로 오늘도 소소한 행복을 느낀다.</span>
-            </label>
-          </div>
-        </div>
-
-        <div class="question" data-question="2">
-          <div class="question-title">Q2. 친구가 “같이 뭐 할래?”라고 물으면?</div>
-          <div class="options">
-            <label class="option-label">
-              <input type="radio" name="q2" value="tiger" />
-              <span class="option-emoji">🦁</span>
-              <span>“가자.” 이미 신발을 신고 있다.</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q2" value="owl" />
-              <span class="option-emoji">🦉</span>
-              <span>언제, 어디, 몇 시인지부터 정확히 묻는다.</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q2" value="monkey" />
-              <span class="option-emoji">🐒</span>
-              <span>“재밌으면 뭐든 상관없지.”</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q2" value="fox" />
-              <span class="option-emoji">🦊</span>
-              <span>“분위기 괜찮은 곳이면 좋아.”</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q2" value="cat" />
-              <span class="option-emoji">🐱</span>
-              <span>“일단 뭐 먹을지부터 정하자.”</span>
-            </label>
-          </div>
-        </div>
-
-        <div class="question" data-question="3">
-          <div class="question-title">Q3. 요즘 나에게 만족감을 주는 건?</div>
-          <div class="options">
-            <label class="option-label">
-              <input type="radio" name="q3" value="tiger" />
-              <span class="option-emoji">🦁</span>
-              <span>새로운 장소와 사람을 만나보는 경험.</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q3" value="owl" />
-              <span class="option-emoji">🦉</span>
-              <span>재테크, 경제 공부, 돈 흐름 이해하기.</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q3" value="monkey" />
-              <span class="option-emoji">🐒</span>
-              <span>게임 승리, 운동 성취감 같은 승부의 순간.</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q3" value="fox" />
-              <span class="option-emoji">🦊</span>
-              <span>좋은 음악과 영화, 취향 맞는 콘텐츠.</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q3" value="cat" />
-              <span class="option-emoji">🐱</span>
-              <span>맛있는 음식, 디저트, 조용한 여유.</span>
-            </label>
-          </div>
-        </div>
-
-        <div class="question" data-question="4">
-          <div class="question-title">Q4. 주로 보는 콘텐츠는?</div>
-          <div class="options">
-            <label class="option-label">
-              <input type="radio" name="q4" value="tiger" />
-              <span class="option-emoji">🦁</span>
-              <span>여행 브이로그, 캠핑·차박 영상.</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q4" value="owl" />
-              <span class="option-emoji">🦉</span>
-              <span>경제·부동산·시사·트렌드 리포트.</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q4" value="monkey" />
-              <span class="option-emoji">🐒</span>
-              <span>e스포츠, 게임 리뷰, 경기 하이라이트.</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q4" value="fox" />
-              <span class="option-emoji">🦊</span>
-              <span>음악 방송, 공연 영상, 영화 리뷰.</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q4" value="cat" />
-              <span class="option-emoji">🐱</span>
-              <span>푸드 리뷰, 맛집 지도, 먹방.</span>
-            </label>
-          </div>
-        </div>
-
-        <div class="question" data-question="5">
-          <div class="question-title">Q5. 모임 스타일을 고르자면?</div>
-          <div class="options">
-            <label class="option-label">
-              <input type="radio" name="q5" value="tiger" />
-              <span class="option-emoji">🦁</span>
-              <span>같이 움직이고 활동하면서 친해지는 모임.</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q5" value="owl" />
-              <span class="option-emoji">🦉</span>
-              <span>목적·정보·효율이 있는 깔끔한 모임.</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q5" value="monkey" />
-              <span class="option-emoji">🐒</span>
-              <span>게임이나 스포츠 같이하는 모임.</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q5" value="fox" />
-              <span class="option-emoji">🦊</span>
-              <span>편안한 음악·공연 vibe가 있는 모임.</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q5" value="cat" />
-              <span class="option-emoji">🐱</span>
-              <span>맛있는 음식과 수다가 중심인 모임.</span>
-            </label>
-          </div>
-        </div>
-
-        <div class="question" data-question="6">
-          <div class="question-title">Q6. 완벽한 여행 스타일은?</div>
-          <div class="options">
-            <label class="option-label">
-              <input type="radio" name="q6" value="tiger" />
-              <span class="option-emoji">🦁</span>
-              <span>즉흥 일정, 가서 보고 정하는 여행.</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q6" value="owl" />
-              <span class="option-emoji">🦉</span>
-              <span>루트·예산·정보를 미리 분석해두는 여행.</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q6" value="monkey" />
-              <span class="option-emoji">🐒</span>
-              <span>테마파크·경기 관람이 꼭 들어간 여행.</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q6" value="fox" />
-              <span class="option-emoji">🦊</span>
-              <span>미술관·영화관·음악이 있는 도시 여행.</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q6" value="cat" />
-              <span class="option-emoji">🐱</span>
-              <span>맛집, 카페 위주로 느긋하게 쉬는 여행.</span>
-            </label>
-          </div>
-        </div>
-
-        <div class="question" data-question="7">
-          <div class="question-title">Q7. 나에게 ‘힐링’은?</div>
-          <div class="options">
-            <label class="option-label">
-              <input type="radio" name="q7" value="tiger" />
-              <span class="option-emoji">🦁</span>
-              <span>바람 맞으며 걷거나 어딘가로 이동하는 시간.</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q7" value="owl" />
-              <span class="option-emoji">🦉</span>
-              <span>기록하고 정리하며 머릿속도 정리하는 시간.</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q7" value="monkey" />
-              <span class="option-emoji">🐒</span>
-              <span>땀 흘리거나 게임에서 이기는 순간.</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q7" value="fox" />
-              <span class="option-emoji">🦊</span>
-              <span>좋은 음악과 영화에 푹 잠기는 시간.</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q7" value="cat" />
-              <span class="option-emoji">🐱</span>
-              <span>조용히 먹고 쉬는, 아무것도 안 해도 되는 시간.</span>
-            </label>
-          </div>
-        </div>
-
-        <div class="question" data-question="8">
-          <div class="question-title">Q8. 새로운 사람을 만났을 때 가장 먼저 보는 건?</div>
-          <div class="options">
-            <label class="option-label">
-              <input type="radio" name="q8" value="tiger" />
-              <span class="option-emoji">🦁</span>
-              <span>에너지, 말투, 노는 방식.</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q8" value="owl" />
-              <span class="option-emoji">🦉</span>
-              <span>사고방식, 대화 흐름, 가치관.</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q8" value="monkey" />
-              <span class="option-emoji">🐒</span>
-              <span>유머 코드, 리액션, 반응 속도.</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q8" value="fox" />
-              <span class="option-emoji">🦊</span>
-              <span>취향, vibe, 감각이 맞는지.</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q8" value="cat" />
-              <span class="option-emoji">🐱</span>
-              <span>먹는 템포, 식습관, 편안한지.</span>
-            </label>
-          </div>
-        </div>
-
-        <div class="question" data-question="9">
-          <div class="question-title">Q9. 소비 스타일을 가장 잘 설명하는 것은?</div>
-          <div class="options">
-            <label class="option-label">
-              <input type="radio" name="q9" value="tiger" />
-              <span class="option-emoji">🦁</span>
-              <span>경험에 대한 소비는 후회하지 않는 편이다.</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q9" value="owl" />
-              <span class="option-emoji">🦉</span>
-              <span>비교·검증 후에 최종 선택하는 편이다.</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q9" value="monkey" />
-              <span class="option-emoji">🐒</span>
-              <span>충동과 재미가 섞인 소비가 많다.</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q9" value="fox" />
-              <span class="option-emoji">🦊</span>
-              <span>감성·브랜드·감각이 중요하다.</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q9" value="cat" />
-              <span class="option-emoji">🐱</span>
-              <span>맛있고 행복하면 그걸로 충분하다.</span>
-            </label>
-          </div>
-        </div>
-
-        <div class="question" data-question="10">
-          <div class="question-title">Q10. 나를 한 문장으로 표현한다면?</div>
-          <div class="options">
-            <label class="option-label">
-              <input type="radio" name="q10" value="tiger" />
-              <span class="option-emoji">🦁</span>
-              <span>“일단 해보는 사람.”</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q10" value="owl" />
-              <span class="option-emoji">🦉</span>
-              <span>“생각하고 결정하는 사람.”</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q10" value="monkey" />
-              <span class="option-emoji">🐒</span>
-              <span>“하고 싶으면 하는 사람.”</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q10" value="fox" />
-              <span class="option-emoji">🦊</span>
-              <span>“느낌이 맞아야 움직이는 사람.”</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="q10" value="cat" />
-              <span class="option-emoji">🐱</span>
-              <span>“조용히 행복을 잘 느끼는 사람.”</span>
-            </label>
-          </div>
+        <div id="question-container">
+          <!-- JS로 질문 내용이 여기 렌더링됨 -->
         </div>
 
         <div class="btn-row">
-          <button type="button" class="btn-secondary" id="reset-btn">
-            ✏️ 처음부터 다시 고르기
+          <button type="button" class="btn-secondary" id="prev-btn">
+            이전
           </button>
-          <button type="submit" class="btn-primary" id="submit-btn" disabled>
-            결과 보기 🐾
+          <button type="button" class="btn-primary" id="next-btn">
+            다음
           </button>
         </div>
         <p class="muted">
-          * 모든 문항에 답하면 <strong>결과 보기</strong> 버튼이 활성화됩니다.
+          * 한 질문씩 차근차근 선택해 주세요.
         </p>
       </form>
-    </main>
+    </section>
 
     <!-- 결과 카드 -->
     <section id="result-card" class="card" style="display:none;">
       <div id="result-content"></div>
+      <div id="result-stats"></div>
+
       <div class="btn-row" style="margin-top:14px;">
         <a
           class="link-button"
@@ -631,118 +350,282 @@
             ✨ 커넥터스 신청하러 가기
           </button>
         </a>
+
+        <button type="button" id="copy-btn" class="btn-secondary">
+          🔗 결과 링크 복사하기
+        </button>
+
         <button type="button" class="btn-secondary" id="again-btn">
           다시 테스트하기 🔁
         </button>
       </div>
+
       <p class="muted">
-        * 이 테스트는 재미+취향 탐색용이며,<br />
-        실제 매칭은 커넥터스 현장·프로그램에서 이뤄집니다.
+        * 이 테스트는 취향+재미용이며,<br />
+        실제 매칭은 커넥터스 현장에서 이루어집니다.
       </p>
     </section>
   </div>
 
   <script>
-    const quizForm = document.getElementById("quiz-form");
-    const submitBtn = document.getElementById("submit-btn");
-    const resetBtn = document.getElementById("reset-btn");
-    const resultCard = document.getElementById("result-card");
-    const resultContent = document.getElementById("result-content");
-    const quizCard = document.getElementById("quiz-card");
-    const againBtn = document.getElementById("again-btn");
+    // 질문 데이터 (동물 타입은 value로만, 화면엔 안 보임)
+    const questions = [
+      {
+        id: 1,
+        text: "Q1. 주말 오전, 당신은 보통?",
+        options: [
+          { text: "갑자기 드라이브나 나들이를 떠난다.", value: "tiger" },
+          { text: "커피 마시며 한 주 계획을 정리한다.", value: "owl" },
+          { text: "게임이나 운동으로 에너지를 채운다.", value: "monkey" },
+          { text: "음악 틀고 천천히 리듬을 맞춘다.", value: "fox" },
+          { text: "브런치·빵·커피로 소소한 행복을 느낀다.", value: "cat" }
+        ]
+      },
+      {
+        id: 2,
+        text: "Q2. 친구가 “같이 뭐 할래?”라고 물으면?",
+        options: [
+          { text: "“가자.” 이미 나갈 준비를 한다.", value: "tiger" },
+          { text: "언제, 어디, 몇 시인지부터 정확히 묻는다.", value: "owl" },
+          { text: "“재밌으면 뭐든 상관없지.”", value: "monkey" },
+          { text: "“분위기 괜찮은 곳이면 좋겠다.”", value: "fox" },
+          { text: "“일단 뭐 먹을지부터 정하자.”", value: "cat" }
+        ]
+      },
+      {
+        id: 3,
+        text: "Q3. 요즘 나에게 가장 만족감을 주는 건?",
+        options: [
+          { text: "새로운 장소와 사람을 만나보는 경험.", value: "tiger" },
+          { text: "재테크·경제 공부, 돈 흐름 이해하기.", value: "owl" },
+          { text: "게임 승리, 운동 성취감 같은 승부의 순간.", value: "monkey" },
+          { text: "좋은 음악과 영화, 취향 맞는 콘텐츠.", value: "fox" },
+          { text: "맛있는 음식과 디저트, 조용한 여유.", value: "cat" }
+        ]
+      },
+      {
+        id: 4,
+        text: "Q4. 주로 보는 콘텐츠는?",
+        options: [
+          { text: "여행 브이로그, 캠핑·차박 영상.", value: "tiger" },
+          { text: "경제·부동산·시사·트렌드 리포트.", value: "owl" },
+          { text: "e스포츠, 게임 리뷰, 경기 하이라이트.", value: "monkey" },
+          { text: "음악 방송, 공연 영상, 영화 리뷰.", value: "fox" },
+          { text: "푸드 리뷰, 맛집 지도, 먹방.", value: "cat" }
+        ]
+      },
+      {
+        id: 5,
+        text: "Q5. 모임 스타일을 고르자면?",
+        options: [
+          { text: "같이 움직이고 활동하면서 친해지는 모임.", value: "tiger" },
+          { text: "목적·정보·효율이 있는 깔끔한 모임.", value: "owl" },
+          { text: "게임이나 스포츠를 같이하는 모임.", value: "monkey" },
+          { text: "편안한 음악·공연 분위기가 있는 모임.", value: "fox" },
+          { text: "맛있는 음식과 수다가 중심인 모임.", value: "cat" }
+        ]
+      },
+      {
+        id: 6,
+        text: "Q6. 완벽한 여행 스타일은?",
+        options: [
+          { text: "즉흥 일정, 가서 보고 정하는 여행.", value: "tiger" },
+          { text: "루트·예산·정보를 미리 분석해두는 여행.", value: "owl" },
+          { text: "테마파크·경기 관람이 꼭 들어간 여행.", value: "monkey" },
+          { text: "미술관·영화관·음악이 있는 도시 여행.", value: "fox" },
+          { text: "맛집, 카페 위주로 느긋하게 쉬는 여행.", value: "cat" }
+        ]
+      },
+      {
+        id: 7,
+        text: "Q7. 나에게 ‘힐링’은?",
+        options: [
+          { text: "바람 맞으며 걷거나 어딘가로 이동하는 시간.", value: "tiger" },
+          { text: "기록하고 정리하며 머릿속도 정리하는 시간.", value: "owl" },
+          { text: "땀 흘리거나 게임에서 이기는 순간.", value: "monkey" },
+          { text: "좋은 음악과 영화에 푹 잠기는 시간.", value: "fox" },
+          { text: "조용히 먹고 쉬는, 아무것도 안 해도 되는 시간.", value: "cat" }
+        ]
+      },
+      {
+        id: 8,
+        text: "Q8. 새로운 사람을 만났을 때 가장 먼저 보는 건?",
+        options: [
+          { text: "에너지, 말투, 노는 방식.", value: "tiger" },
+          { text: "사고방식, 대화 흐름, 가치관.", value: "owl" },
+          { text: "유머 코드, 리액션, 반응 속도.", value: "monkey" },
+          { text: "취향, 분위기, 감각이 맞는지.", value: "fox" },
+          { text: "식습관, 먹는 템포, 편안한지.", value: "cat" }
+        ]
+      },
+      {
+        id: 9,
+        text: "Q9. 내 소비 스타일을 가장 잘 설명하는 것은?",
+        options: [
+          { text: "경험에 대한 소비는 후회하지 않는 편이다.", value: "tiger" },
+          { text: "비교·검증 후에 최종 선택하는 편이다.", value: "owl" },
+          { text: "충동과 재미가 섞인 소비가 많다.", value: "monkey" },
+          { text: "감성·브랜드·감각이 중요하다.", value: "fox" },
+          { text: "맛있고 행복하면 그걸로 충분하다.", value: "cat" }
+        ]
+      },
+      {
+        id: 10,
+        text: "Q10. 나를 한 문장으로 표현한다면?",
+        options: [
+          { text: "“일단 해보는 사람.”", value: "tiger" },
+          { text: "“생각하고 결정하는 사람.”", value: "owl" },
+          { text: "“하고 싶으면 하는 사람.”", value: "monkey" },
+          { text: "“느낌이 맞아야 움직이는 사람.”", value: "fox" },
+          { text: "“조용히 행복을 잘 느끼는 사람.”", value: "cat" }
+        ]
+      }
+    ];
 
+    // 결과 데이터 (여기서만 동물 이모티콘/이름 노출)
     const animalData = {
       tiger: {
         emoji: "🦁",
         title: "움직이는 호랑이",
         subtitle: "“재밌겠다!” 한마디면 이미 출발한 사람.",
-        keywords: ["여행", "캠핑", "즉흥", "새 장소"],
-        goodActivities: "여행 · 캠핑 · 드라이브 · 야외 모임",
-        group: "여행 · 캠핑 그룹",
         description:
-          "당신은 계획보다 ‘해보는 경험’을 더 중요하게 생각하는 타입이에요. 새로운 장소와 사람을 만나보는 일이 지루한 일상을 깨는 비타민이 됩니다."
+          "당신은 계획보다 ‘해보는 경험’을 더 중요하게 생각하는 타입이에요. 새로운 장소와 사람을 만나보는 일이 지루한 일상을 깨는 비타민이 됩니다.",
+        keywords: ["여행", "캠핑", "즉흥", "새 장소"],
+        activities: "여행 · 캠핑 · 드라이브 · 야외 모임",
+        group: "여행 · 캠핑 그룹"
       },
       owl: {
         emoji: "🦉",
         title: "계획하는 부엉이",
         subtitle: "“일단 정리부터 해볼까?”",
-        keywords: ["재테크", "경제", "루틴", "지식"],
-        goodActivities: "공부 모임 · 금융/투자 이야기 · 루틴 챌린지",
-        group: "재테크 · 경제 그룹",
         description:
-          "당신은 감정보다 정보와 근거에 안정감을 느끼는 타입이에요. 모임도 소비도 즉흥보다는 ‘의미와 설득력’을 중요하게 봅니다. 꾸준함과 분석이 당신의 무기예요."
+          "당신은 감정보다 정보와 근거에 안정감을 느끼는 타입이에요. 모임도 소비도 즉흥보다는 ‘의미와 설득력’을 중요하게 봅니다. 꾸준함과 분석이 당신의 무기예요.",
+        keywords: ["재테크", "경제", "루틴", "지식"],
+        activities: "공부 모임 · 금융/투자 이야기 · 루틴 챌린지",
+        group: "재테크 · 경제 그룹"
       },
       monkey: {
         emoji: "🐒",
         title: "불타는 원숭이",
         subtitle: "“재밌으면 그냥 하는 거지!”",
-        keywords: ["스포츠", "게임", "경쟁", "몰입"],
-        goodActivities: "경기 관람 · 게임파티 · 팀플 액티비티",
-        group: "스포츠 · 게임 그룹",
         description:
-          "당신은 몰입력과 승부욕이 있는 타입이에요. 게임이든 운동이든 에너지 넘치는 활동에서 기분이 살아납니다. ‘재밌냐?’가 많은 선택의 기준이 돼요."
+          "당신은 몰입력과 승부욕이 있는 타입이에요. 게임이든 운동이든 에너지 넘치는 활동에서 기분이 살아납니다. ‘재밌냐?’가 많은 선택의 기준이 돼요.",
+        keywords: ["스포츠", "게임", "경쟁", "몰입"],
+        activities: "경기 관람 · 게임파티 · 팀플 액티비티",
+        group: "스포츠 · 게임 그룹"
       },
       fox: {
         emoji: "🦊",
         title: "감상하는 여우",
         subtitle: "“분위기 좋은데…?”",
-        keywords: ["음악", "영화", "공연", "무드"],
-        goodActivities: "콘서트 · 영화 모임 · 전시 감상 · 산책",
-        group: "뮤직 · 영화 · 공연 그룹",
         description:
-          "당신은 취향과 감각이 일상을 결정하는 타입이에요. 음악, 영화, 공연, 전시는 단순한 취미가 아니라 ‘취향의 언어’입니다. 분위기와 무드를 잘 느끼는 사람이에요."
+          "당신은 취향과 감각이 일상을 결정하는 타입이에요. 음악, 영화, 공연, 전시는 단순한 취미가 아니라 ‘취향의 언어’입니다. 분위기와 무드를 잘 느끼는 사람이에요.",
+        keywords: ["음악", "영화", "공연", "무드"],
+        activities: "콘서트 · 영화 모임 · 전시 감상 · 산책",
+        group: "뮤직 · 영화 · 공연 그룹"
       },
       cat: {
         emoji: "🐱",
         title: "천천히 즐기는 고양이",
         subtitle: "“천천히, 그런데 제대로.”",
-        keywords: ["맛집", "요리", "분위기", "소확행"],
-        goodActivities: "브런치 · 맛집 탐방 · 홈카페 · 요리 모임",
-        group: "맛집 · 요리 그룹",
         description:
-          "당신은 빠른 자극보다 편안함과 여유를 좋아하는 타입이에요. 맛있는 음식과 좋은 자리, 조용한 대화가 있는 시간에서 행복을 잘 느낍니다."
+          "당신은 빠른 자극보다 편안함과 여유를 좋아하는 타입이에요. 맛있는 음식과 좋은 자리, 조용한 대화가 있는 시간에서 행복을 잘 느낍니다.",
+        keywords: ["맛집", "요리", "분위기", "소확행"],
+        activities: "브런치 · 맛집 탐방 · 홈카페 · 요리 모임",
+        group: "맛집 · 요리 그룹"
       }
     };
 
-    // 문항 응답 여부 체크해서 버튼 활성화
-    const totalQuestions = 10;
-    quizForm.addEventListener("change", () => {
-      let answered = 0;
-      for (let i = 1; i <= totalQuestions; i++) {
-        const name = "q" + i;
-        if (quizForm.querySelector(`input[name="${name}"]:checked`)) {
-          answered++;
-        }
+    const quizCard = document.getElementById("quiz-card");
+    const quizForm = document.getElementById("quiz-form");
+    const questionContainer = document.getElementById("question-container");
+    const progressText = document.getElementById("progress-text");
+    const progressFill = document.getElementById("progress-fill");
+    const prevBtn = document.getElementById("prev-btn");
+    const nextBtn = document.getElementById("next-btn");
+
+    const resultCard = document.getElementById("result-card");
+    const resultContent = document.getElementById("result-content");
+    const resultStats = document.getElementById("result-stats");
+    const copyBtn = document.getElementById("copy-btn");
+    const againBtn = document.getElementById("again-btn");
+
+    let currentIndex = 0; // 0~9
+    const answers = new Array(questions.length).fill(null);
+
+    function renderQuestion() {
+      const q = questions[currentIndex];
+      progressText.textContent = `Q${currentIndex + 1} / ${questions.length}`;
+      const pct = ((currentIndex) / questions.length) * 100;
+      progressFill.style.width = `${pct}%`;
+
+      let html = `
+        <div class="question-title">${q.text}</div>
+        <div class="options">
+      `;
+
+      q.options.forEach((opt, idx) => {
+        const name = "q" + q.id;
+        const checked = answers[currentIndex] === opt.value ? "checked" : "";
+        html += `
+          <label class="option-label">
+            <input type="radio" name="${name}" value="${opt.value}" ${checked} />
+            <span>${opt.text}</span>
+          </label>
+        `;
+      });
+
+      html += `</div>`;
+      questionContainer.innerHTML = html;
+
+      // 버튼 상태
+      prevBtn.disabled = currentIndex === 0;
+      if (currentIndex === questions.length - 1) {
+        nextBtn.textContent = "결과 보기";
+      } else {
+        nextBtn.textContent = "다음";
       }
-      submitBtn.disabled = answered !== totalQuestions;
+    }
+
+    function getSelectedForCurrent() {
+      const q = questions[currentIndex];
+      const name = "q" + q.id;
+      const selected = quizForm.querySelector(`input[name="${name}"]:checked`);
+      return selected ? selected.value : null;
+    }
+
+    prevBtn.addEventListener("click", () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+        renderQuestion();
+      }
     });
 
-    // 결과 계산
-    quizForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-
-      const scores = {
-        tiger: 0,
-        owl: 0,
-        monkey: 0,
-        fox: 0,
-        cat: 0
-      };
-
-      for (let i = 1; i <= totalQuestions; i++) {
-        const name = "q" + i;
-        const checked = quizForm.querySelector(
-          `input[name="${name}"]:checked`
-        );
-        if (checked) {
-          const value = checked.value;
-          if (scores[value] !== undefined) {
-            scores[value] += 1;
-          }
-        }
+    nextBtn.addEventListener("click", () => {
+      const selected = getSelectedForCurrent();
+      if (!selected) {
+        alert("한 가지를 선택해 주세요.");
+        return;
       }
+      answers[currentIndex] = selected;
 
-      // 최고 점수 타입 찾기 (동점이면 먼저 나온 타입)
+      if (currentIndex < questions.length - 1) {
+        currentIndex++;
+        renderQuestion();
+      } else {
+        // 마지막 문항 → 결과 계산
+        showResult();
+      }
+    });
+
+    function showResult() {
+      // 점수 계산
+      const scores = { tiger:0, owl:0, monkey:0, fox:0, cat:0 };
+      answers.forEach(v => {
+        if (v && scores[v] !== undefined) scores[v]++;
+      });
+
+      // 최고 타입
       let bestType = "tiger";
       let bestScore = -1;
       Object.entries(scores).forEach(([type, score]) => {
@@ -752,49 +635,71 @@
         }
       });
 
-      const data = animalData[bestType];
-      renderResult(data);
-      quizCard.style.display = "none";
-      resultCard.style.display = "block";
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
+      const d = animalData[bestType];
 
-    function renderResult(data) {
+      // 통계값 (랜덤, 나중에 진짜 DB 붙일 수 있게 구조만 유지)
+      const sampleCount = Math.floor(Math.random() * (367 - 83) + 83); // 83~366
+      const percentage = (sampleCount / 500 * 100).toFixed(1);
+
+      const userURL = window.location.href.split("?")[0] + `?type=${bestType}`;
+
       resultContent.innerHTML = `
         <div class="result-header">
-          <span class="emoji">${data.emoji}</span>
-          <span>${data.title}</span>
+          <span class="emoji">${d.emoji}</span>
+          <span>${d.title}</span>
         </div>
-        <div class="result-subtitle">${data.subtitle}</div>
+        <div class="result-subtitle">${d.subtitle}</div>
         <p style="font-size:0.95rem; line-height:1.7; margin:0 0 6px;">
-          ${data.description}
+          ${d.description}
         </p>
         <div class="result-section-title">📌 취향 키워드</div>
         <ul class="bullet-list">
-          ${data.keywords.map((k) => `<li>${k}</li>`).join("")}
+          ${d.keywords.map(k => `<li>${k}</li>`).join("")}
         </ul>
         <div class="result-section-title">💛 잘 맞는 활동</div>
-        <p style="font-size:0.9rem; margin:0 0 4px;">${data.goodActivities}</p>
+        <p style="font-size:0.9rem; margin:0 0 4px;">${d.activities}</p>
         <div class="result-section-title">✨ 추천 커넥터스 모임</div>
-        <span class="pill">➡️ ${data.group}</span>
+        <span class="pill">➡️ ${d.group}</span>
         <p class="muted">
           나와 비슷한 취향을 가진 사람들을<br />
           커넥터스에서 직접 만나볼 수 있어요.
         </p>
       `;
-    }
 
-    // 처음부터 다시
-    function resetQuiz() {
-      quizForm.reset();
-      submitBtn.disabled = true;
-      quizCard.style.display = "block";
-      resultCard.style.display = "none";
+      resultStats.innerHTML = `
+        <strong>${sampleCount}</strong>명이 당신과 같은 결과를 선택했어요!<br />
+        <span style="color:#777; font-size:0.85rem;">(전체 참여자의 약 ${percentage}%로 추정)</span>
+      `;
+
+      // 링크 복사
+      copyBtn.onclick = () => {
+        navigator.clipboard.writeText(userURL).then(() => {
+          const originalText = copyBtn.textContent;
+          copyBtn.textContent = "✔ 복사 완료!";
+          setTimeout(() => {
+            copyBtn.textContent = originalText;
+          }, 1500);
+        });
+      };
+
+      quizCard.style.display = "none";
+      resultCard.style.display = "block";
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    resetBtn.addEventListener("click", resetQuiz);
+    function resetQuiz() {
+      currentIndex = 0;
+      for (let i = 0; i < answers.length; i++) answers[i] = null;
+      quizCard.style.display = "block";
+      resultCard.style.display = "none";
+      renderQuestion();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
     againBtn.addEventListener("click", resetQuiz);
+
+    // 초기 렌더
+    renderQuestion();
   </script>
 </body>
 </html>
